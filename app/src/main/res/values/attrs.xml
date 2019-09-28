@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!--1-->
+    <declare-styleable name="DrawAssitance">
+        <!--2-->
+        <attr name="color1" format="color" />
+        <attr name="color2" format="color" />
+        <attr name="color3" format="color" />
+        <attr name="color4" format="color" />
+        <attr name="borderWidth" format="dimension" />
+        <attr name="state" format="enum">
+            <enum name="state1" value="0" />
+            <enum name="state2" value="1" />
+        </attr>
+    </declare-styleable>
+
+
+</resources>
+
+
+
