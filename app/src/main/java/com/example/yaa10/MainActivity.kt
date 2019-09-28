@@ -1,5 +1,6 @@
 package com.example.yaa10
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         smilingPerson.setOnClickListener {
             animateDp()
+            animateColor()
         }
     }
 
@@ -29,6 +31,10 @@ class MainActivity : AppCompatActivity() {
             .dp().translationY(0f, 80f,0f)
             .duration(1000)
             .repeatCount(5)
+            .onStop {
+                speakingTextview1.text = "זהו גמרתי לקפוץ, עכשיו קצת ננוח"
+
+            }
             .start()
 
         /*  ViewAnimator
@@ -48,5 +54,16 @@ class MainActivity : AppCompatActivity() {
                 happySmilly.visibility= View.VISIBLE
             }*//*
             .start()*/
+    }
+    private fun animateColor() {
+        ViewAnimator
+            .animate(speakingTextview1)
+            .onStart {
+                speakingTextview1.text = "מה קורה נסיך"
+            }
+            .textColor(Color.BLACK, Color.GREEN)
+            .backgroundColor(Color.WHITE, Color.BLACK)
+            .duration(3000)
+            .start()
     }
 }

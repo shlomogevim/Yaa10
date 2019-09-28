@@ -8,7 +8,8 @@ import android.util.AttributeSet
 import android.view.View
 
 class Speaking1(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
-
+     val hight=500
+    val wight=500
 
     companion object {
         private const val DEFAULT1 = Color.CYAN
@@ -62,10 +63,10 @@ class Speaking1(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         size = Math.min(measuredWidth, measuredHeight)
-        setMeasuredDimension(size, size)
-        /*var w = (0.9 * size).toInt()
-        var h = (0.1 * size).toInt()
-        setMeasuredDimension(w, h)*/
+       // setMeasuredDimension(size, size)
+        var w = wight
+        var h = hight
+        setMeasuredDimension(w, h)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -82,10 +83,10 @@ class Speaking1(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private fun drawRec(canvas: Canvas) {
         paint.color = color1
         paint.style = Paint.Style.FILL
-        var x1 = 250f
-        var y1 = 600f
-        var x2 = 550f
-        var y2 = 750f
+        var x1 = 0f
+        var y1 = 0f
+        var x2 = wight.toFloat()
+        var y2 = hight.toFloat()
         canvas.drawRect(x1, y1, x2, y2, paint)
         paint.color = borderColor
         paint.style = Paint.Style.STROKE
