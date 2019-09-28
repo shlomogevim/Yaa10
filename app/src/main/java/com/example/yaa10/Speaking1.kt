@@ -63,7 +63,9 @@ class Speaking1(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         size = Math.min(measuredWidth, measuredHeight)
         setMeasuredDimension(size, size)
-       // setMeasuredDimension(size, (size*0.5).toInt())
+        /*var w = (0.9 * size).toInt()
+        var h = (0.1 * size).toInt()
+        setMeasuredDimension(w, h)*/
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -71,25 +73,28 @@ class Speaking1(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         super.onDraw(canvas)
         drawRec(canvas)
 
-       /* drawFaceBackground(canvas)
-        drawEyes(canvas)
-        drawMouth(canvas)*/
+        /* drawFaceBackground(canvas)
+         drawEyes(canvas)
+         drawMouth(canvas)*/
     }
-
 
 
     private fun drawRec(canvas: Canvas) {
         paint.color = color1
         paint.style = Paint.Style.FILL
-        var x1=100f
-        var y1=100f
-        var x2=300f
-        var y2=150f
-        canvas.drawRect(x1,y1,x2,y2,paint)
+        var x1 = 250f
+        var y1 = 600f
+        var x2 = 550f
+        var y2 = 750f
+        canvas.drawRect(x1, y1, x2, y2, paint)
         paint.color = borderColor
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = borderWidth
-        canvas.drawRect(x1,y1,x2,y2,paint)
+
+
+
+
+        canvas.drawRect(x1, y1, x2, y2, paint)
 
     }
 
@@ -175,8 +180,6 @@ class Speaking1(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         }
         super.onRestoreInstanceState(viewState)
     }
-
-
 
 
 }
