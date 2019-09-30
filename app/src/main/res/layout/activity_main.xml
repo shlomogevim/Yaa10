@@ -5,8 +5,6 @@
     android:id="@+id/constrainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:keepScreenOn="true"
-
     tools:context=".MainActivity">
 
     <com.example.yaa10.ViewAsistente1

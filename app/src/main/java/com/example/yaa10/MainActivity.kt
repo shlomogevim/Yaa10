@@ -49,22 +49,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /*private fun operateGoddy(st: String) {
-        val st1 = orgenizeString(st)
 
-        goddySpeaking.text = st1
-        lineNum = 1
-    }*/
 
     private fun operateGoddy(st:String){
         val st1=orgenizeString(st)
         var yy=0f
+        val dy=115f+((lineNum-1)*3)
         if (start) yy=0f
-        when (lineNum){
+
+        animateView(goddySpeaking,0f,dy)
+
+        /*when (lineNum){
             1->animateView(goddySpeaking,0f,90f+yy)
             2->animateView(goddySpeaking,0f,120f+yy)
+            3->animateView(goddySpeaking,0f,150f+yy)
+            4->animateView(goddySpeaking,0f,180f+yy)
+            5->animateView(goddySpeaking,0f,210f+yy)
 
-        }
+        }*/
         goddySpeaking.text = st1
         lineNum=1
         start=false
@@ -79,11 +81,18 @@ class MainActivity : AppCompatActivity() {
          val st1=orgenizeString(st)
          var yy=0f
          if (start) yy=30f
-         when (lineNum){
-             1->animateView(manSpeaking,0f,390f+yy)
+                    yy=0f
+         var dy=420-30*(lineNum-1)
+         animateView(manSpeaking,0f,dy+yy)
+        /* when (lineNum){
+             1->animateView(manSpeaking,0f,390-30*(lineNum-1)f+yy)
              2->animateView(manSpeaking,0f,360f+yy)
+             3->animateView(manSpeaking,0f,330f+yy)
+             4->animateView(manSpeaking,0f,300f+yy)
+             5->animateView(manSpeaking,0f,270f+yy)
+             6->animateView(manSpeaking,0f,240f+yy)
 
-         }
+         }*/
          manSpeaking.text = st1
          lineNum=1
          start=false
@@ -106,9 +115,10 @@ class MainActivity : AppCompatActivity() {
         val arr: Array<String>
         var s1 = ""
         var localS = ""
-
+        var originalS1=originalS.replace("אדם:","")
+         originalS1=originalS1.replace("אלוהים","")
         var countChar = 0
-        if (originalS.length > 20) {
+        if (originalS1.length > 20) {
             arr = originalS.split(" ").toTypedArray()
             for (element in arr) {
                 countChar += element.length
@@ -134,25 +144,28 @@ class MainActivity : AppCompatActivity() {
             localS = localS + "\n" + s1
             return localS
         } else {
-            localS = originalS
+            localS = originalS1
         }
         return localS
     }
 
 
     private fun getData() {
-        val text = applicationContext.assets.open("text1.txt").bufferedReader().use {
+        //val text = applicationContext.assets.open("text1.txt").bufferedReader().use {
+        val text = applicationContext.assets.open("text3.txt").bufferedReader().use {
             it.readText()
         }
-        mainArrayDialog = text.split("*").toMutableList()
-        for (i in 0 until mainArrayDialog.size) {
-            val st = mainArrayDialog[i]
-            if ((i % 2) == 0) {
-                stamManSpeaking(st)
-            } else {
-                stamGodSpeaking(st)
+        var arr= text.split("\n").toMutableList()
+
+        mainArrayDialog= mutableListOf()
+
+        for (i in 0 until arr.size){
+            val st=arr[i]
+            if (st!="אדם" && st!="אלוהים" && st!="-" && st!=""){
+                mainArrayDialog.add(st)
             }
         }
+
     }
 
     private fun stamGodSpeaking(st: String) {
