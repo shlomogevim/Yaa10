@@ -3,7 +3,10 @@ package com.example.yaa10
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.Constraints
 import com.github.florent37.viewanimator.ViewAnimator
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -12,7 +15,9 @@ class MainActivity : AppCompatActivity() {
     var newMessage = ""
     var round = 1
     var counter = 0
+    var lineNum = 1
     lateinit var mainArrayDialog: MutableList<String>
+    var start=true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,23 +28,117 @@ class MainActivity : AppCompatActivity() {
         /*rect1.scaleX = 0.55f + 0.1f
         rect1.scaleY = 0.18f + 0.1f*/
 
-        manSpeaking.text = mainArrayDialog[0]
+        // manSpeaking.text = orgenizeString(mainArrayDialog[0])
+        operateMan(mainArrayDialog[0])
 
         goddy.setOnClickListener {
-            goddySpeaking.text = mainArrayDialog[round * 2 - 1]
+            operateGoddy(mainArrayDialog[round * 2 - 1])
 
             round++
 
         }
 
         man.setOnClickListener {
-            manSpeaking.text = mainArrayDialog[round * 2 - 2]
+
+
+            operateMan(mainArrayDialog[round * 2 - 2])
 
             /* animateDp()
              animateText(newMessage)
              animatRec(newMessage)*/
         }
     }
+
+    /*private fun operateGoddy(st: String) {
+        val st1 = orgenizeString(st)
+
+        goddySpeaking.text = st1
+        lineNum = 1
+    }*/
+
+    private fun operateGoddy(st:String){
+        val st1=orgenizeString(st)
+        var yy=0f
+        if (start) yy=0f
+        when (lineNum){
+            1->animateView(goddySpeaking,0f,90f+yy)
+            2->animateView(goddySpeaking,0f,120f+yy)
+
+        }
+        goddySpeaking.text = st1
+        lineNum=1
+        start=false
+    }
+
+
+
+
+
+
+     private fun operateMan(st:String){
+         val st1=orgenizeString(st)
+         var yy=0f
+         if (start) yy=30f
+         when (lineNum){
+             1->animateView(manSpeaking,0f,390f+yy)
+             2->animateView(manSpeaking,0f,360f+yy)
+
+         }
+         manSpeaking.text = st1
+         lineNum=1
+         start=false
+     }
+
+
+    private fun animateView(view:View,dx:Float,dy:Float) {
+
+        ViewAnimator
+            .animate(view)
+            .dp().translationY(dx)
+            .dp().translationY(dy)
+
+            .duration(10)
+
+            .start()
+    }
+
+    private fun orgenizeString(originalS: String): String {
+        val arr: Array<String>
+        var s1 = ""
+        var localS = ""
+
+        var countChar = 0
+        if (originalS.length > 20) {
+            arr = originalS.split(" ").toTypedArray()
+            for (element in arr) {
+                countChar += element.length
+                if (countChar <= 20) {
+                    if (s1 == "") {
+                        s1 = element
+                    } else {
+                        s1 = "$s1 $element"
+                        countChar++
+                    }
+                } else {
+                    if (localS == "") {
+                        localS = s1
+                    } else {
+                        localS = localS + "\n" + s1
+
+                    }
+                    s1 = element
+                    countChar = element.length
+                    lineNum++
+                }
+            }
+            localS = localS + "\n" + s1
+            return localS
+        } else {
+            localS = originalS
+        }
+        return localS
+    }
+
 
     private fun getData() {
         val text = applicationContext.assets.open("text1.txt").bufferedReader().use {
@@ -49,20 +148,20 @@ class MainActivity : AppCompatActivity() {
         for (i in 0 until mainArrayDialog.size) {
             val st = mainArrayDialog[i]
             if ((i % 2) == 0) {
-                manSpeaking(st)
+                stamManSpeaking(st)
             } else {
-                godSpeaking(st)
+                stamGodSpeaking(st)
             }
         }
     }
 
-    private fun godSpeaking(st: String) {
+    private fun stamGodSpeaking(st: String) {
         Log.d("clima", " god ==> $st")
 
 
     }
 
-    private fun manSpeaking(st: String) {
+    private fun stamManSpeaking(st: String) {
         Log.d("clima", " man ==> $st")
 
     }

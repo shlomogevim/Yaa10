@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constrainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
     android:keepScreenOn="true"
 
-    >
+    tools:context=".MainActivity">
 
     <com.example.yaa10.ViewAsistente1
         android:id="@+id/goddy"
@@ -30,7 +30,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
     <com.example.yaa10.Speaking1
         android:id="@+id/rect1"
         android:layout_width="wrap_content"
@@ -47,11 +46,9 @@
         android:id="@+id/goddySpeaking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
         android:elevation="1dp"
-        android:text="Its goddy here"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -60,11 +57,10 @@
         android:id="@+id/manSpeaking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="400dp"
         android:elevation="1dp"
         android:text="Hello World2"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
