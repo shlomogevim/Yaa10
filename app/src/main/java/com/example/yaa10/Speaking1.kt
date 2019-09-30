@@ -8,8 +8,8 @@ import android.util.AttributeSet
 import android.view.View
 
 class Speaking1(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
-     val hight=500
-    val wight=500
+     val hight=100
+    val wight=100
 
     companion object {
         private const val DEFAULT1 = Color.CYAN
@@ -17,6 +17,7 @@ class Speaking1(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         private const val DEFAULT3 = Color.BLACK
         private const val DEFAULT_BOURDER = Color.BLACK
         private const val DEFAULT_WIDTH = 4.0f
+        private const val DEFAULT_TEXT_SIZE = 24.0f
 
         const val HAPPY = 0L
         const val SAD = 1L
@@ -27,6 +28,7 @@ class Speaking1(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
     private var color3 = DEFAULT3
     private var borderColor = DEFAULT_BOURDER
     private var borderWidth = DEFAULT_WIDTH
+    private var textSize = DEFAULT_TEXT_SIZE
 
     private val paint = Paint()
     private val mouthPath = Path()
@@ -55,6 +57,7 @@ class Speaking1(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         color3 = typedArray.getColor(R.styleable.DrawAssitance_color3, DEFAULT3)
         borderColor = typedArray.getColor(R.styleable.DrawAssitance_color4, DEFAULT_BOURDER)
         borderWidth = typedArray.getDimension(R.styleable.DrawAssitance_borderWidth, DEFAULT_WIDTH)
+        textSize = typedArray.getDimension(R.styleable.DrawAssitance_textSize, DEFAULT_TEXT_SIZE)
 
         typedArray.recycle()
     }

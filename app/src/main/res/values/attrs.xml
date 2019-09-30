@@ -10,6 +10,7 @@
         <attr name="color3" format="color" />
         <attr name="color4" format="color" />
         <attr name="borderWidth" format="dimension" />
+        <attr name="textSize" format="dimension" />
         <attr name="state" format="enum">
             <enum name="state1" value="0" />
             <enum name="state2" value="1" />
