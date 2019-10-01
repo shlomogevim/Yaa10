@@ -12,9 +12,7 @@ class MainActivity : AppCompatActivity() {
     val ADAM = "-אדם-"
     val GOD = "-אלוהים-"
 
-    var newMessage = ""
     var round = 0
-    var counter = 0
     var lineNum = 1
     lateinit var mainArrayDialog: MutableList<String>
     lateinit var godList: MutableList<String>
@@ -30,17 +28,11 @@ class MainActivity : AppCompatActivity() {
         operateMan(manList[round])
 
         goddy.setOnClickListener {
-          //  operateGoddy(mainArrayDialog[round * 2 - 1])
             operateGoddy(godList[round])
             round++
-
         }
 
         man.setOnClickListener {
-
-
-            //operateMan(mainArrayDialog[round * 2 - 2])
-
             operateMan(manList[round])
 
             /* animateDp()
@@ -51,7 +43,6 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun operateGoddy(st: String) {
-        // val st1 = orgenizeString(st)
         lineNum = st.length - (st.replace("\n", "").length) + 1
         val st1 = st
         var yy = 0f
@@ -67,16 +58,10 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun operateMan(st: String) {
-        // val st1 = orgenizeString(st)
         lineNum = st.length - (st.replace("\n", "").length) + 1
-        Log.d("clima", "lineNum=$lineNum")
         val st1 = st
-        var yy = 0f
-        if (start) yy = 30f
-        yy = 0f
         var dy = 420 - 30 * (lineNum - 1)
         animateView(manSpeaking, 0f, dy.toFloat())
-
         manSpeaking.text = st1
         lineNum = 1
         start = false
@@ -140,8 +125,6 @@ class MainActivity : AppCompatActivity() {
         text = text.replace("\r", "")
         godList = mutableListOf()
         manList = mutableListOf()
-        //  var arr = text.split("\n").toMutableList()
-        //var arr = text.split("\r").toMutableList()
         var list1 = text.split(ADAM)
         for (element in list1) {
             if (element!="" && element.length>15) {
@@ -153,122 +136,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
-        /*  mainArrayDialog = mutableListOf()
-          var ii = 0
-          var st = ""
-          var st1 = ""
-          var st3 = ""
-          var newOne = true
-          var counter=0
-          while (counter<arr.size){
-              if (counter==10){
-                  st="t"
-              }
-              st=arr[counter]
-              st1 = arr[counter + 1]
-              st1 = st1.replace("\r", "")
-              if (newSentence(st)) {
-                  newOne = true
-                  if (st1=="") counter++
-              } else {
-                  if (newOne) st3 = st
-
-
-                  if (newSentence(st1)) {
-                      st3 = st.replace("\r", "")
-                      if (st!=null) mainArrayDialog.add(st3)
-                      newOne = true
-                  } else {
-                      if (st3 == "") {
-                          st3 = st
-                      } else {
-                          st3 = st3 + "\n"+st1
-                          counter++
-                          st1 = arr[counter + 1]
-                          if (newSentence(st1)) {
-                              st3 = st3.replace("\r", "")
-                              if (st3!=null) mainArrayDialog.add(st3)
-                              newOne = true
-                          }
-                      }
-                  }
-                  newOne=false
-              }
-           counter++
-
-          }*/
-
-
-    }
-    /*  private fun getData() {
-          val text = applicationContext.assets.open("text12.txt").bufferedReader().use {
-              it.readText()
-          }
-          //  var arr = text.split("\n").toMutableList()
-          var arr = text.split("\n").toMutableList()
-
-          mainArrayDialog = mutableListOf()
-          var ii = 0
-          var st = ""
-          var st1 = ""
-          var st3 = ""
-          var newOne = true
-          var counter=0
-          while (counter<arr.size){
-              if (counter==10){
-                  st="t"
-              }
-              st=arr[counter]
-              st1 = arr[counter + 1]
-              st1 = st1.replace("\r", "")
-              if (newSentence(st)) {
-                  newOne = true
-                  if (st1=="") counter++
-              } else {
-                  if (newOne) st3 = st
-
-
-                  if (newSentence(st1)) {
-                      st3 = st.replace("\r", "")
-                      if (st!=null) mainArrayDialog.add(st3)
-                      newOne = true
-                  } else {
-                      if (st3 == "") {
-                          st3 = st
-                      } else {
-                          st3 = st3 + "\n"+st1
-                          counter++
-                          st1 = arr[counter + 1]
-                          if (newSentence(st1)) {
-                              st3 = st3.replace("\r", "")
-                              if (st3!=null) mainArrayDialog.add(st3)
-                              newOne = true
-                          }
-                      }
-                  }
-                  newOne=false
-              }
-              counter++
-
-          }
-
-
-      }*/
-
-    private fun newSentence(st: String) = (st.contains("-אדם-") || st.contains("-אלוהים-"))
-
-
-    private fun stamGodSpeaking(st: String) {
-        Log.d("clima", " god ==> $st")
-
-
     }
 
-    private fun stamManSpeaking(st: String) {
-        Log.d("clima", " man ==> $st")
-
-    }
 
 
     private fun animateDp() {
