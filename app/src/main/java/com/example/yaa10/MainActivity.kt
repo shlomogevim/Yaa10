@@ -4,20 +4,22 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.Constraints
 import com.github.florent37.viewanimator.ViewAnimator
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+    val ADAM = "-אדם-"
+    val GOD = "-אלוהים-"
 
     var newMessage = ""
-    var round = 1
+    var round = 0
     var counter = 0
     var lineNum = 1
     lateinit var mainArrayDialog: MutableList<String>
-    var start=true
+    lateinit var godList: MutableList<String>
+    lateinit var manList: MutableList<String>
+    var start = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,15 +27,11 @@ class MainActivity : AppCompatActivity() {
 
         getData()
 
-        /*rect1.scaleX = 0.55f + 0.1f
-        rect1.scaleY = 0.18f + 0.1f*/
-
-        // manSpeaking.text = orgenizeString(mainArrayDialog[0])
-        operateMan(mainArrayDialog[0])
+        operateMan(manList[round])
 
         goddy.setOnClickListener {
-            operateGoddy(mainArrayDialog[round * 2 - 1])
-
+          //  operateGoddy(mainArrayDialog[round * 2 - 1])
+            operateGoddy(godList[round])
             round++
 
         }
@@ -41,7 +39,9 @@ class MainActivity : AppCompatActivity() {
         man.setOnClickListener {
 
 
-            operateMan(mainArrayDialog[round * 2 - 2])
+            //operateMan(mainArrayDialog[round * 2 - 2])
+
+            operateMan(manList[round])
 
             /* animateDp()
              animateText(newMessage)
@@ -50,75 +50,56 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    private fun operateGoddy(st: String) {
+        // val st1 = orgenizeString(st)
+        lineNum = st.length - (st.replace("\n", "").length) + 1
+        val st1 = st
+        var yy = 0f
+        val dy = 115f + ((lineNum - 1) * 3)
+        if (start) yy = 0f
 
-    private fun operateGoddy(st:String){
-        val st1=orgenizeString(st)
-        var yy=0f
-        val dy=115f+((lineNum-1)*3)
-        if (start) yy=0f
+        animateView(goddySpeaking, 0f, dy)
 
-        animateView(goddySpeaking,0f,dy)
-
-        /*when (lineNum){
-            1->animateView(goddySpeaking,0f,90f+yy)
-            2->animateView(goddySpeaking,0f,120f+yy)
-            3->animateView(goddySpeaking,0f,150f+yy)
-            4->animateView(goddySpeaking,0f,180f+yy)
-            5->animateView(goddySpeaking,0f,210f+yy)
-
-        }*/
         goddySpeaking.text = st1
-        lineNum=1
-        start=false
+        lineNum = 1
+        start = false
     }
 
 
+    private fun operateMan(st: String) {
+        // val st1 = orgenizeString(st)
+        lineNum = st.length - (st.replace("\n", "").length) + 1
+        Log.d("clima", "lineNum=$lineNum")
+        val st1 = st
+        var yy = 0f
+        if (start) yy = 30f
+        yy = 0f
+        var dy = 420 - 30 * (lineNum - 1)
+        animateView(manSpeaking, 0f, dy.toFloat())
+
+        manSpeaking.text = st1
+        lineNum = 1
+        start = false
+    }
 
 
-
-
-     private fun operateMan(st:String){
-         val st1=orgenizeString(st)
-         var yy=0f
-         if (start) yy=30f
-                    yy=0f
-         var dy=420-30*(lineNum-1)
-         animateView(manSpeaking,0f,dy+yy)
-        /* when (lineNum){
-             1->animateView(manSpeaking,0f,390-30*(lineNum-1)f+yy)
-             2->animateView(manSpeaking,0f,360f+yy)
-             3->animateView(manSpeaking,0f,330f+yy)
-             4->animateView(manSpeaking,0f,300f+yy)
-             5->animateView(manSpeaking,0f,270f+yy)
-             6->animateView(manSpeaking,0f,240f+yy)
-
-         }*/
-         manSpeaking.text = st1
-         lineNum=1
-         start=false
-     }
-
-
-    private fun animateView(view:View,dx:Float,dy:Float) {
+    private fun animateView(view: View, dx: Float, dy: Float) {
 
         ViewAnimator
             .animate(view)
             .dp().translationY(dx)
             .dp().translationY(dy)
-
             .duration(10)
-
             .start()
     }
+
 
     private fun orgenizeString(originalS: String): String {
         val arr: Array<String>
         var s1 = ""
         var localS = ""
-        var originalS1=originalS.replace("אדם:","")
-         originalS1=originalS1.replace("אלוהים","")
         var countChar = 0
-        if (originalS1.length > 20) {
+        if (originalS.length > 20) {
             arr = originalS.split(" ").toTypedArray()
             for (element in arr) {
                 countChar += element.length
@@ -144,29 +125,139 @@ class MainActivity : AppCompatActivity() {
             localS = localS + "\n" + s1
             return localS
         } else {
-            localS = originalS1
+            localS = originalS
         }
         return localS
     }
 
+  private fun improveString(st:String)=st.substring(1,st.length-1)
+
 
     private fun getData() {
-        //val text = applicationContext.assets.open("text1.txt").bufferedReader().use {
-        val text = applicationContext.assets.open("text3.txt").bufferedReader().use {
+        var text = applicationContext.assets.open("text12.txt").bufferedReader().use {
             it.readText()
         }
-        var arr= text.split("\n").toMutableList()
-
-        mainArrayDialog= mutableListOf()
-
-        for (i in 0 until arr.size){
-            val st=arr[i]
-            if (st!="אדם" && st!="אלוהים" && st!="-" && st!=""){
-                mainArrayDialog.add(st)
+        text = text.replace("\r", "")
+        godList = mutableListOf()
+        manList = mutableListOf()
+        //  var arr = text.split("\n").toMutableList()
+        //var arr = text.split("\r").toMutableList()
+        var list1 = text.split(ADAM)
+        for (element in list1) {
+            if (element!="" && element.length>15) {
+                var list2 = element.split(GOD)
+                val st1=improveString(list2[1])
+                val st2=improveString(list2[0])
+                godList.add(st1)
+                manList.add(st2)
             }
         }
 
+
+        /*  mainArrayDialog = mutableListOf()
+          var ii = 0
+          var st = ""
+          var st1 = ""
+          var st3 = ""
+          var newOne = true
+          var counter=0
+          while (counter<arr.size){
+              if (counter==10){
+                  st="t"
+              }
+              st=arr[counter]
+              st1 = arr[counter + 1]
+              st1 = st1.replace("\r", "")
+              if (newSentence(st)) {
+                  newOne = true
+                  if (st1=="") counter++
+              } else {
+                  if (newOne) st3 = st
+
+
+                  if (newSentence(st1)) {
+                      st3 = st.replace("\r", "")
+                      if (st!=null) mainArrayDialog.add(st3)
+                      newOne = true
+                  } else {
+                      if (st3 == "") {
+                          st3 = st
+                      } else {
+                          st3 = st3 + "\n"+st1
+                          counter++
+                          st1 = arr[counter + 1]
+                          if (newSentence(st1)) {
+                              st3 = st3.replace("\r", "")
+                              if (st3!=null) mainArrayDialog.add(st3)
+                              newOne = true
+                          }
+                      }
+                  }
+                  newOne=false
+              }
+           counter++
+
+          }*/
+
+
     }
+    /*  private fun getData() {
+          val text = applicationContext.assets.open("text12.txt").bufferedReader().use {
+              it.readText()
+          }
+          //  var arr = text.split("\n").toMutableList()
+          var arr = text.split("\n").toMutableList()
+
+          mainArrayDialog = mutableListOf()
+          var ii = 0
+          var st = ""
+          var st1 = ""
+          var st3 = ""
+          var newOne = true
+          var counter=0
+          while (counter<arr.size){
+              if (counter==10){
+                  st="t"
+              }
+              st=arr[counter]
+              st1 = arr[counter + 1]
+              st1 = st1.replace("\r", "")
+              if (newSentence(st)) {
+                  newOne = true
+                  if (st1=="") counter++
+              } else {
+                  if (newOne) st3 = st
+
+
+                  if (newSentence(st1)) {
+                      st3 = st.replace("\r", "")
+                      if (st!=null) mainArrayDialog.add(st3)
+                      newOne = true
+                  } else {
+                      if (st3 == "") {
+                          st3 = st
+                      } else {
+                          st3 = st3 + "\n"+st1
+                          counter++
+                          st1 = arr[counter + 1]
+                          if (newSentence(st1)) {
+                              st3 = st3.replace("\r", "")
+                              if (st3!=null) mainArrayDialog.add(st3)
+                              newOne = true
+                          }
+                      }
+                  }
+                  newOne=false
+              }
+              counter++
+
+          }
+
+
+      }*/
+
+    private fun newSentence(st: String) = (st.contains("-אדם-") || st.contains("-אלוהים-"))
+
 
     private fun stamGodSpeaking(st: String) {
         Log.d("clima", " god ==> $st")
@@ -198,16 +289,16 @@ class MainActivity : AppCompatActivity() {
             .start()
 
         /*  ViewAnimator
-              .animate(happySmilly, sadSmilly)
-              .dp().translationY(0f, 500f)
-              .duration(3000)
-              .accelerate()
-              .thenAnimate(happySmilly, sadSmilly)
-              .dp().translationY(500f, 0f)
-              .rotation(720f * counter)
-              .duration(3000)
-              .decelerate()
-              *//*.onStop {
+          .animate(happySmilly, sadSmilly)
+          .dp().translationY(0f, 500f)
+          .duration(3000)
+          .accelerate()
+          .thenAnimate(happySmilly, sadSmilly)
+          .dp().translationY(500f, 0f)
+          .rotation(720f * counter)
+          .duration(3000)
+          .decelerate()
+          *//*.onStop {
                 happySmilly.visibility= View.GONE
                 happySmilly.animate().rotation(-720f)
                 sadSmilly.animate().rotation(-720f)
@@ -255,3 +346,4 @@ class MainActivity : AppCompatActivity() {
 
     }
 }
+
