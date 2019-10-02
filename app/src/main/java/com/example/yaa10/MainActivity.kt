@@ -2,8 +2,8 @@ package com.example.yaa10
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.github.florent37.viewanimator.ViewAnimator
 import kotlinx.android.synthetic.main.activity_main.*
@@ -12,32 +12,61 @@ class MainActivity : AppCompatActivity() {
     val ADAM = "-אדם-"
     val GOD = "-אלוהים-"
 
-    var round = 0
+    private var round = 0
     var lineNum = 1
     lateinit var mainArrayDialog: MutableList<String>
     lateinit var godList: MutableList<String>
     lateinit var manList: MutableList<String>
     var start = true
+    private var manMode = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         getData()
 
-        operateMan(manList[round])
+        generalOperation()
+
+       // operateMan(manList[round])
 
         goddy.setOnClickListener {
-            operateGoddy(godList[round])
-            round++
+            if (!manMode) {
+                generalOperation()
+                manMode=true
+            } else {
+                Toast.makeText(this, "נסה שוב, זה התור של האדם לדבר", Toast.LENGTH_LONG).show()
+            }
+
+            /*operateGoddy(godList[round])
+            round++*/
         }
 
         man.setOnClickListener {
-            operateMan(manList[round])
+            //operateMan(manList[round])
+            if (manMode) {
+                generalOperation()
+                manMode=false
+            } else {
+                Toast.makeText(this, "נסה שוב, זה התור של האין סוף להגיב", Toast.LENGTH_LONG).show()
+
+            }
 
             /* animateDp()
              animateText(newMessage)
              animatRec(newMessage)*/
+        }
+    }
+
+    private fun generalOperation() {
+        if (manMode) {
+            //Its man position
+            operateMan(manList[round])
+            manMode = false
+        } else {
+            // lts God position
+            operateGoddy(godList[round])
+            round++
+            manMode = true
         }
     }
 
@@ -49,22 +78,41 @@ class MainActivity : AppCompatActivity() {
         val dy = 115f + ((lineNum - 1) * 3)
         if (start) yy = 0f
 
-        animateView(goddySpeaking, 0f, dy)
-
+        animateView(goddySpeaking, 0f, 0f)
+        animationFad(0,manSpeaking)
+        animationFad(1,goddySpeaking)
         goddySpeaking.text = st1
         lineNum = 1
         start = false
     }
 
-
     private fun operateMan(st: String) {
         lineNum = st.length - (st.replace("\n", "").length) + 1
         val st1 = st
         var dy = 420 - 30 * (lineNum - 1)
-        animateView(manSpeaking, 0f, dy.toFloat())
+        animateView(manSpeaking, 0f, 0f)
+        animationFad(0,goddySpeaking)
+        animationFad(1,manSpeaking)
         manSpeaking.text = st1
         lineNum = 1
         start = false
+    }
+
+    private fun animationFad(ind:Int,view:View) {
+        if (ind==0) {
+            ViewAnimator
+                .animate(view)
+                .alpha(1f, 0.2f)
+                .duration(300)
+                .start()
+        }
+        if (ind==1) {
+            ViewAnimator
+                .animate(view)
+                .alpha(0.2f, 1f)
+                .duration(300)
+                .start()
+        }
     }
 
 
@@ -74,10 +122,34 @@ class MainActivity : AppCompatActivity() {
             .animate(view)
             .dp().translationY(dx)
             .dp().translationY(dy)
-            .duration(10)
+            .duration(1)
             .start()
     }
 
+
+    private fun improveString(st: String) = st.substring(1, st.length - 1)
+
+
+    private fun getData() {
+          var text = applicationContext.assets.open("text121.txt").bufferedReader().use {
+       // var text = applicationContext.assets.open("text121.txt").bufferedReader().use {
+            it.readText()
+        }
+        text = text.replace("\r", "")
+        godList = mutableListOf()
+        manList = mutableListOf()
+        var list1 = text.split(ADAM)
+        for (element in list1) {
+            if (element != "" && element.length > 15) {
+                var list2 = element.split(GOD)
+                val st1 = improveString(list2[1])
+                val st2 = improveString(list2[0])
+                godList.add(st1)
+                manList.add(st2)
+            }
+        }
+
+    }
 
     private fun orgenizeString(originalS: String): String {
         val arr: Array<String>
@@ -114,31 +186,6 @@ class MainActivity : AppCompatActivity() {
         }
         return localS
     }
-
-  private fun improveString(st:String)=st.substring(1,st.length-1)
-
-
-    private fun getData() {
-        var text = applicationContext.assets.open("text12.txt").bufferedReader().use {
-            it.readText()
-        }
-        text = text.replace("\r", "")
-        godList = mutableListOf()
-        manList = mutableListOf()
-        var list1 = text.split(ADAM)
-        for (element in list1) {
-            if (element!="" && element.length>15) {
-                var list2 = element.split(GOD)
-                val st1=improveString(list2[1])
-                val st2=improveString(list2[0])
-                godList.add(st1)
-                manList.add(st2)
-            }
-        }
-
-    }
-
-
 
     private fun animateDp() {
 
