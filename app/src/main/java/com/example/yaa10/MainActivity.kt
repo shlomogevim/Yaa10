@@ -131,8 +131,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun getData() {
-          var text = applicationContext.assets.open("text121.txt").bufferedReader().use {
-       // var text = applicationContext.assets.open("text121.txt").bufferedReader().use {
+          var text = applicationContext.assets.open("text11.txt").bufferedReader().use {
             it.readText()
         }
         text = text.replace("\r", "")
