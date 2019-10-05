@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun generalOperation() {
+       round=1
         if (manMode) {
             //Its man position
             operateMan(manList[round])
@@ -75,53 +76,31 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-   fun styleIt1(view:TextView,st:String):TextView{
-       var view1=view
-
-       view1.setBackgroundColor(Color.YELLOW)
-      // view1.setBackgroundResource(R.color.yelow)
-       view1.setTextColor(Color.parseColor("#bdbdbd"))
-       //view1.setTextColor(resources.getColor(R.color.red))
-       view1.text=st
-       view1.setPadding(20,0,20,0)
-
-      return view1
-   }
-    private fun operateGoddy(st: String) {
+     private fun operateGoddy(st: String) {
        // lineNum = st.length - (st.replace("\n", "").length) + 1
         var arr=st.split("\n")
 
         if (arr.size==1){
             val st1=arr[0]
-            val go1=styleIt1(godSpeaking1,st1)
-            val go2=styleIt1(godSpeaking1A,st1)
-
-            godSpeaking1.text=st1
-            godSpeaking1A.text=st1
-
-            animationUtil.godTranslaion1(go1,go2)
-
+            animationUtil.godTranslaion1(arr,godSpeaking1,godSpeaking1A)
         }
-
-
-
-      /*  animateView(godSpeaking1, 0f, 0f)
-        animationFad(0,manSpeaking1)
-        animationFad(1,godSpeaking1)
-        godSpeaking1.text = st*/
 
     }
 
     private fun operateMan(st: String) {
-       // lineNum = st.length - (st.replace("\n", "").length) + 1
-      var arr=st.split("\n")
+      val arr=st.split("\n")
       if (arr.size==2){
+
+
           var st1=arr[0]
           var st2=arr[1]
           manSpeaking1.text=st1
           manSpeaking2.text=st2
           animationUtil.manTranslation1(0,manSpeaking1,manSpeaking2 )
       }
+        if (arr.size==5){
+            animationUtil.manTranslaion51(arr,manSpeaking1,manSpeaking2,manSpeaking3,manSpeaking4,manSpeaking5)
+        }
 
     }
 
