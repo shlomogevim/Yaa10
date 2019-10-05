@@ -3,6 +3,7 @@ package com.example.yaa10
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.github.florent37.viewanimator.ViewAnimator
@@ -20,9 +21,12 @@ class MainActivity : AppCompatActivity() {
     var start = true
     private var manMode = true
 
+    lateinit var animationUtil: AnimationUtil
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        animationUtil= AnimationUtil(this)
         getData()
 
         generalOperation()
@@ -71,31 +75,54 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun operateGoddy(st: String) {
-        lineNum = st.length - (st.replace("\n", "").length) + 1
-        val st1 = st
-        var yy = 0f
-        val dy = 115f + ((lineNum - 1) * 3)
-        if (start) yy = 0f
+   fun styleIt1(view:TextView,st:String):TextView{
+       var view1=view
 
-        animateView(goddySpeaking, 0f, 0f)
-        animationFad(0,manSpeaking)
-        animationFad(1,goddySpeaking)
-        goddySpeaking.text = st1
-        lineNum = 1
-        start = false
+       view1.setBackgroundColor(Color.YELLOW)
+      // view1.setBackgroundResource(R.color.yelow)
+       view1.setTextColor(Color.parseColor("#bdbdbd"))
+       //view1.setTextColor(resources.getColor(R.color.red))
+       view1.text=st
+       view1.setPadding(20,0,20,0)
+
+      return view1
+   }
+    private fun operateGoddy(st: String) {
+       // lineNum = st.length - (st.replace("\n", "").length) + 1
+        var arr=st.split("\n")
+
+        if (arr.size==1){
+            val st1=arr[0]
+            val go1=styleIt1(godSpeaking1,st1)
+            val go2=styleIt1(godSpeaking1A,st1)
+
+            godSpeaking1.text=st1
+            godSpeaking1A.text=st1
+
+            animationUtil.godTranslaion1(go1,go2)
+
+        }
+
+
+
+      /*  animateView(godSpeaking1, 0f, 0f)
+        animationFad(0,manSpeaking1)
+        animationFad(1,godSpeaking1)
+        godSpeaking1.text = st*/
+
     }
 
     private fun operateMan(st: String) {
-        lineNum = st.length - (st.replace("\n", "").length) + 1
-        val st1 = st
-        var dy = 420 - 30 * (lineNum - 1)
-        animateView(manSpeaking, 0f, 0f)
-        animationFad(0,goddySpeaking)
-        animationFad(1,manSpeaking)
-        manSpeaking.text = st1
-        lineNum = 1
-        start = false
+       // lineNum = st.length - (st.replace("\n", "").length) + 1
+      var arr=st.split("\n")
+      if (arr.size==2){
+          var st1=arr[0]
+          var st2=arr[1]
+          manSpeaking1.text=st1
+          manSpeaking2.text=st2
+          animationUtil.manTranslation1(0,manSpeaking1,manSpeaking2 )
+      }
+
     }
 
     private fun animationFad(ind:Int,view:View) {
@@ -131,7 +158,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun getData() {
-          var text = applicationContext.assets.open("text11.txt").bufferedReader().use {
+          var text = applicationContext.assets.open("text10.txt").bufferedReader().use {
             it.readText()
         }
         text = text.replace("\r", "")
@@ -186,7 +213,7 @@ class MainActivity : AppCompatActivity() {
         return localS
     }
 
-    private fun animateDp() {
+   /* private fun animateDp() {
 
         ViewAnimator
             .animate(goddy)
@@ -203,7 +230,7 @@ class MainActivity : AppCompatActivity() {
             }
             .start()
 
-        /*  ViewAnimator
+        *//*  ViewAnimator
           .animate(happySmilly, sadSmilly)
           .dp().translationY(0f, 500f)
           .duration(3000)
@@ -213,16 +240,16 @@ class MainActivity : AppCompatActivity() {
           .rotation(720f * counter)
           .duration(3000)
           .decelerate()
-          *//*.onStop {
+          *//**//*.onStop {
                 happySmilly.visibility= View.GONE
                 happySmilly.animate().rotation(-720f)
                 sadSmilly.animate().rotation(-720f)
                 happySmilly.visibility= View.VISIBLE
-            }*//*
-            .start()*/
-    }
+            }*//**//*
+            .start()*//*
+    }*/
 
-    private fun animateText(message: String) {
+   /* private fun animateText(message: String) {
 
         ViewAnimator
             .animate(goddySpeaking)
@@ -233,9 +260,9 @@ class MainActivity : AppCompatActivity() {
             .backgroundColor(Color.WHITE, Color.BLACK)
             .duration(3000)
             .start()
-    }
+    }*/
 
-    private fun animatRec(message: String) {
+  /*  private fun animatRec(message: String) {
         var scalX = 1f
         var scalY = 1f
 
@@ -259,6 +286,6 @@ class MainActivity : AppCompatActivity() {
             .scaleY(scalY)
             .start()
 
-    }
+    }*/
 }
 
